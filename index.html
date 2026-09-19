@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#101015">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="icon-192.png">
+<link rel="apple-touch-icon" href="icon-192.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<title>NdalaMovies</title>
+<style>
+:root{--bg:#101015;--card:#1b1b23;--tx:#f2f2f6;--mu:#8b8b99;--bd:#26262f;--ac:#16c784;--or:#f4622f;--bl:#38b6ff;--wa:#25d366}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{margin:0;background:var(--bg);color:var(--tx);font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;padding-bottom:calc(76px + env(safe-area-inset-bottom))}
+.w{max-width:720px;margin:0 auto}
+input,select,button{font:inherit;color:var(--tx)}
+button{cursor:pointer}
+.top{position:sticky;top:0;background:var(--bg);z-index:5;padding:calc(12px + env(safe-area-inset-top)) 16px 0}
+.br{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
+.brand{display:flex;align-items:center;gap:8px;font-weight:800;font-size:1.25rem;color:var(--ac);letter-spacing:.02em}
+.lg{width:34px;height:34px;flex:none}
+.ins{display:none;background:var(--ac);color:#04231a;border:0;border-radius:16px;padding:6px 12px;font-weight:700;font-size:.8rem}
+.sb{display:flex;align-items:center;gap:8px;background:#2a2a33;border-radius:12px;padding:0 12px}
+.sb input{flex:1;background:transparent;border:0;padding:12px 0;outline:0;min-width:0}
+.tabs{display:flex;gap:24px;overflow-x:auto;padding-top:12px;scrollbar-width:none}
+.tabs::-webkit-scrollbar{display:none}
+.tab{background:none;border:0;color:var(--mu);font-size:1.05rem;padding:6px 0 10px;position:relative;white-space:nowrap}
+.tab.on{color:#fff;font-weight:700}
+.tab.on::after{content:"";position:absolute;left:20%;right:20%;bottom:0;height:3px;border-radius:3px;background:var(--ac)}
+.ban{display:flex;gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;padding:14px 16px 4px;scrollbar-width:none}
+.ban::-webkit-scrollbar{display:none}
+.bn{flex:0 0 86%;height:170px;border-radius:14px;scroll-snap-align:center;position:relative;overflow:hidden;background:linear-gradient(135deg,#3b1d7a,#0f766e);display:flex;flex-direction:column;justify-content:flex-end;padding:16px;gap:6px}
+.bn img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.bn::before{content:"";position:absolute;inset:0;background:linear-gradient(transparent 30%,#000c);z-index:1}
+.bn>*:not(img){position:relative;z-index:2}
+.bn h3{margin:0;font-size:1.2rem}
+.bn p{margin:0;font-size:.85rem;opacity:.9}
+.pill{align-self:flex-start;background:var(--ac);color:#04231a;font-weight:700;font-size:.78rem;padding:5px 12px;border-radius:14px}
+.sh{display:flex;align-items:center;gap:8px;padding:0 16px;margin:20px 0 10px}
+.sh h2{margin:0;font-size:1.2rem}
+.tg{padding:4px 10px;border-radius:6px;font-size:.8rem;font-weight:600;background:var(--or)}
+.tg.a{background:#8b5cf6}.tg.s{background:var(--bl);color:#04202e}
+.g3{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;padding:0 16px}
+.pc{min-width:0;cursor:pointer}
+.pw{position:relative;aspect-ratio:2/3;border-radius:10px;overflow:hidden;background:#2a2a33;display:flex;align-items:center;justify-content:center;font-size:2rem}
+.pw img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.pw::after{content:"";position:absolute;left:0;right:0;bottom:0;height:45%;background:linear-gradient(transparent,#000b)}
+.vf{position:absolute;top:0;right:0;z-index:2;background:#000a;padding:3px 8px;font-size:.7rem;font-weight:700;border-bottom-left-radius:8px}
+.rt{position:absolute;bottom:6px;right:8px;z-index:2;font-weight:700;color:#f5c542;font-size:.9rem}
+.cart{position:absolute;bottom:5px;left:8px;z-index:2;font-size:1rem}
+.x{position:absolute;top:4px;left:4px;z-index:3;background:#ef4444;border:0;border-radius:50%;width:24px;height:24px;font-size:.75rem;line-height:1;padding:0}
+.pt{margin-top:6px;font-size:.85rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pn{font-size:.7rem;color:var(--mu);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.more{display:block;width:calc(100% - 32px);margin:14px 16px 0;padding:14px;border-radius:10px;background:var(--card);border:0;font-size:1rem}
+.em{text-align:center;color:var(--mu);padding:50px 20px}
+.warn{margin:12px 16px 0;border:1px solid #f59e0b;color:#f59e0b;padding:10px;border-radius:8px;font-size:.85rem}
+.nv{position:fixed;left:0;right:0;bottom:0;background:#15151b;border-top:1px solid var(--bd);display:flex;padding:8px 0 calc(8px + env(safe-area-inset-bottom));z-index:6}
+.ni{flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;background:none;border:0;color:var(--mu);font-size:.72rem;text-decoration:none}
+.ni span{font-size:1.4rem;filter:grayscale(1);opacity:.7}
+.ni.on{color:var(--ac)}.ni.on span{filter:none;opacity:1}
+.ov{position:fixed;inset:0;background:#000b;display:flex;align-items:flex-end;justify-content:center;z-index:9}
+@media(min-width:640px){.ov{align-items:center}}
+.m{background:var(--card);border-radius:18px 18px 0 0;padding:18px;width:100%;max-width:440px;display:flex;flex-direction:column;gap:12px;padding-bottom:calc(18px + env(safe-area-inset-bottom))}
+@media(min-width:640px){.m{border-radius:18px}}
+.mh{display:flex;gap:12px}
+.mh .pw{width:90px;flex:none;border-radius:8px}
+.mh .pw::after{display:none}
+.mi{display:flex;flex-direction:column;gap:6px;justify-content:center;min-width:0}
+.mi b{font-size:1.05rem}
+.mu{color:var(--mu);font-size:.8rem}
+input,select{width:100%;padding:12px;border:1px solid var(--bd);border-radius:10px;background:#14141a;outline:0}
+input:focus,select:focus{border-color:var(--ac)}
+.btn{border:0;border-radius:12px;padding:13px;background:var(--wa);color:#04210f;font-weight:700;text-align:center;text-decoration:none;display:block;font-size:.95rem;width:100%}
+.btn.s{background:var(--ac);color:#04231a}
+.btn.g{background:#2a2a33;color:var(--tx)}
+.pg{padding:calc(20px + env(safe-area-inset-top)) 16px;display:flex;flex-direction:column;gap:12px}
+.pg h1{display:flex;align-items:center;gap:10px;margin:0;font-size:1.3rem;color:var(--ac)}
+.cd{background:var(--card);border-radius:14px;padding:14px;display:flex;flex-direction:column;gap:10px}
+.cd h2{margin:0;font-size:1rem}
+.row{display:flex;gap:8px;align-items:center}
+.ck{display:flex;gap:8px;align-items:center;font-size:.9rem}
+.ck input{width:auto}
+.av{width:56px;height:56px;flex:none;border-radius:50%;background:var(--ac);color:#04231a;display:flex;align-items:center;justify-content:center;font-size:1.5rem;font-weight:800}
+.seg{display:flex;background:#14141a;border-radius:10px;padding:4px}
+.seg button{flex:1;border:0;background:none;padding:9px;border-radius:8px;color:var(--mu);font-weight:600}
+.seg button.on{background:var(--ac);color:#04231a}
+.li{display:flex;gap:10px;align-items:center;padding:8px 0;border-bottom:1px solid var(--bd);font-size:.85rem}
+.li img{width:36px;height:54px;object-fit:cover;border-radius:4px}
+.li .g{flex:1;min-width:0}
+.st{display:flex;gap:10px}
+.st div{flex:1;background:var(--card);border-radius:12px;padding:12px;text-align:center;color:var(--mu);font-size:.8rem}
+.st b{display:block;font-size:1.5rem;color:var(--ac)}
+.dl{background:#ef4444;color:#fff;border:0;border-radius:8px;padding:6px 10px;font-size:.75rem}
+.lk{color:var(--ac);font-size:.85rem;background:none;border:0;padding:0;text-decoration:none;text-align:left}
+#toast{position:fixed;bottom:90px;left:50%;transform:translateX(-50%);background:#000;color:#fff;padding:10px 16px;border-radius:10px;display:none;z-index:99;font-size:.9rem;max-width:90%;text-align:center}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><symbol id="logo" viewBox="0 0 100 100"><g transform="rotate(-12 50 50)">
+<rect x="16" y="38" width="68" height="48" rx="7" fill="#16c784"/>
+<path d="M43 51 L43 75 L65 63 Z" fill="#fff" stroke="#fff" stroke-width="5" stroke-linejoin="round"/>
+<g transform="rotate(-22 16 25)"><rect x="16" y="11" width="68" height="14" rx="3" fill="#f4622f"/><path d="M30 11l-5 14M43 11l-5 14M56 11l-5 14M69 11l-5 14M82 11l-5 14" stroke="#fff" stroke-width="4.5" clip-path="inset(0)"/></g>
+<rect x="16" y="26" width="68" height="13" rx="3" fill="#f4622f"/>
+<path d="M30 26l-5 13M43 26l-5 13M56 26l-5 13M69 26l-5 13M82 26l-5 13" stroke="#fff" stroke-width="4.5"/>
+<circle cx="24" cy="32.5" r="1.8" fill="#101015"/>
+</g></symbol></svg>
+<div class="w">
+  <div id="top" class="top">
+    <div class="br"><div class="brand"><svg class="lg"><use href="#logo"/></svg>NdalaMovies</div><button class="ins" id="inst">⬇ Installer</button></div>
+    <div class="sb"><span>🔍</span><input id="q" type="search" placeholder="Rechercher un film ou un animé…"></div>
+    <div class="tabs" id="tabs"></div>
+  </div>
+  <div id="warn"></div>
+  <div id="app"></div>
+</div>
+<nav class="nv">
+  <button class="ni on" data-p="main"><span>🏠</span>Accueil</button>
+  <a class="ni" id="ct" target="_blank" rel="noopener"><span>💬</span>Contact</a>
+  <button class="ni" data-p="me"><span>👤</span>Moi</button>
+  <button class="ni" data-p="admin" id="nadm" style="display:none"><span>🛠</span>Admin</button>
+</nav>
+<div id="modal"></div>
+<div id="toast"></div>
+
+<script type="module">
+import {initializeApp} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import {getFirestore,collection,doc,onSnapshot,addDoc,deleteDoc,setDoc,serverTimestamp} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+import {getAuth,signInWithEmailAndPassword,createUserWithEmailAndPassword,updateProfile,sendPasswordResetEmail,signOut,onAuthStateChanged} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
+/* ====== À MODIFIER ====== */
+const firebaseConfig={
+  apiKey:"AIzaSyDIhdX5YjfcGYBWM0jOz48E08fSJ3B6IX0",
+  authDomain:"ndalamovies.firebaseapp.com",
+  projectId:"ndalamovies",
+  storageBucket:"ndalamovies.firebasestorage.app",
+  messagingSenderId:"715691519082",
+  appId:"1:715691519082:web:5898a032ad70fc9f006e13"
+};
+const ADMIN_EMAIL="tsisalovanonafandala@gmail.com";
+const DEFAULT_PHONE="261337804805"; // 0337804805 (format international, fixe)
+/* ======================== */
+
+const $=s=>document.querySelector(s);
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const LBL={film:'Film',anime:'Animé',serie:'Série'};
+const TABS=[['home','Tendance'],['film','Films'],['anime','Animés'],['serie','Séries']];
+const SECS=[['film','','Nouveautés','Film'],['anime','a','Animés','Animé'],['serie','s','Séries','Série']];
+let items=[],phone=DEFAULT_PHONE,tab='home',page='main',q='',isAdmin=false,cur=null,db=null,auth=null,dp=null,me=null,prof=null,members=[],mode='login',unsubM=null,unsubP=null,localAdmin=false;
+try{localAdmin=localStorage.getItem('adm')==='1'}catch(e){}
+isAdmin=localAdmin;
+
+function toast(m){const t=$('#toast');t.textContent=m;t.style.display='block';setTimeout(()=>t.style.display='none',3000)}
+function normPhone(v){const d=String(v).replace(/\D/g,'');return(d.startsWith('0')&&d.length==10)?'261'+d.slice(1):d}
+
+/* ---- Firebase ---- */
+const configured=!firebaseConfig.apiKey.startsWith('COLLE');
+if(configured){
+  try{
+    const app=initializeApp(firebaseConfig);
+    db=getFirestore(app);auth=getAuth(app);
+    onSnapshot(collection(db,'catalogue'),snap=>{
+      items=snap.docs.map(d=>({id:d.id,...d.data()}));
+      items.sort((a,b)=>((b.createdAt?.toMillis?.()||Date.now())-(a.createdAt?.toMillis?.()||Date.now())));
+      render();
+    },e=>toast('Lecture impossible : '+e.code));
+    onAuthStateChanged(auth,u=>{
+      me=u;
+      if(unsubP)unsubP();unsubP=null;prof=null;
+      if(u)unsubP=onSnapshot(doc(db,'users',u.uid),s=>{prof=s.exists()?s.data():null;render(true)},()=>{});
+      render(true);
+    });
+    watchMembers();
+  }catch(e){toast('Erreur Firebase : '+e.message)}
+}else{
+  $('#warn').innerHTML='<div class="warn">⚠ Firebase n\'est pas encore configuré : colle ta configuration dans index.html (section « À MODIFIER »).</div>';
+}
+
+/* ---- Composants ---- */
+const card=x=>`<div class="pc" data-buy="${esc(x.id)}"><div class="pw">${x.img?`<img src="${esc(x.img)}" alt="${esc(x.title)}" loading="lazy">`:'🎞️'}${x.lang?`<span class="vf">${esc(x.lang)}</span>`:''}<span class="cart">🛒</span>${x.rating?`<span class="rt">${esc(x.rating)}</span>`:''}</div><div class="pt">${esc(x.title)}</div>${x.note?`<div class="pn">${esc(x.note)}</div>`:''}</div>`;
+const grid=l=>`<div class="g3" style="margin-top:14px">${l.map(card).join('')}</div>`;
+const empty='<div class="em">Aucun titre pour le moment.</div>';
+
+function banner(){
+  const feat=items.filter(x=>x.featured).slice(0,5);
+  return `<div class="ban"><div class="bn"><h3>Commande ton film ou animé</h3><p>Choisis un titre, indique l'épisode et envoie ta demande sur WhatsApp.</p></div>${feat.map(x=>`<div class="bn" data-buy="${esc(x.id)}">${x.img?`<img src="${esc(x.img)}" alt="">`:''}<span class="pill">À la une</span><h3>${esc(x.title)}</h3><p>${LBL[x.type]||'Film'}${x.note?' · '+esc(x.note):''}</p></div>`).join('')}</div>`;
+}
+
+function authView(){
+  const su=mode==='signup';
+  return `<div class="cd"><div class="seg"><button data-mode="login" class="${su?'':'on'}">Connexion</button><button data-mode="signup" class="${su?'on':''}">Inscription</button></div>
+  ${su?'<input id="an" placeholder="Nom complet" autocomplete="name"><input id="ap" placeholder="Numéro WhatsApp (ex: 034 12 345 67)" inputmode="tel" autocomplete="tel">':''}
+  <input id="ae" type="email" placeholder="Email" autocomplete="username"><input id="aw" type="password" placeholder="Mot de passe (6 caractères min.)" autocomplete="${su?'new-password':'current-password'}">
+  <button class="btn s" id="${su?'ds':'dl'}">${su?'Créer mon compte':'Se connecter'}</button>
+  ${su?'':'<button class="lk" id="fg">Mot de passe oublié ?</button>'}</div>`;
+}
+function profView(){
+  const n=prof?.name||me.displayName||me.email.split('@')[0];
+  return `<div class="cd"><div class="row"><div class="av">${esc(n[0].toUpperCase())}</div><div><b>${esc(n)}</b><div class="mu">${esc(me.email)}</div></div></div>
+  <input id="pn" value="${esc(n)}" placeholder="Nom"><input id="pp" value="${esc(prof?.phone||'')}" placeholder="Numéro WhatsApp" inputmode="tel">
+  <button class="btn s" id="pf">Enregistrer</button>
+  <button class="btn g" id="lg">Se déconnecter</button></div>`;
+}
+function admView(){
+  return `<div class="cd"><h2>🛠 Panel admin</h2><div class="mu">${esc(ADMIN_EMAIL)}</div>
+  <button class="btn" id="gadm" style="background:var(--or);color:#fff">Ouvrir le panel admin</button>
+  <button class="btn g" id="ladm">Quitter le mode admin</button></div>`;
+}
+function admGate(){
+  return `<div class="cd"><h2>🛠 Panel admin</h2>
+  <input id="ame" type="email" placeholder="Email admin" autocomplete="off">
+  <button class="btn" id="amok" style="background:var(--or);color:#fff">Ouvrir le panel admin</button></div>`;
+}
+function meView(){
+  return `<div class="pg"><h1><svg class="lg"><use href="#logo"/></svg>NdalaMovies</h1>
+  ${me?profView():authView()}
+  ${isAdmin?admView():admGate()}
+  <div class="cd"><h2>Une demande ?</h2><div class="mu">Écris-nous directement sur WhatsApp.</div><a class="btn" id="ct2" target="_blank" rel="noopener">💬 Contacter sur WhatsApp</a></div></div>`;
+}
+function adminView(){
+  const ms=[...members].sort((a,b)=>(b.createdAt?.toMillis?.()||0)-(a.createdAt?.toMillis?.()||0));
+  return `<div class="pg"><h1>🛠 Panneau admin</h1>
+  <div class="st"><div><b>${items.length}</b>titres</div><div><b>${members.length}</b>membres</div></div>
+  <div class="cd"><h2>Ajouter un titre</h2>
+  <input id="nt" placeholder="Titre du film ou animé">
+  <div class="row"><select id="nty"><option value="film">Film</option><option value="anime">Animé</option><option value="serie">Série</option></select><select id="nl"><option value="">Langue</option><option>V.F.</option><option>V.O.</option><option>VOSTFR</option></select></div>
+  <div class="row"><input id="nn" placeholder="Note (ex: 24 épisodes)"><input id="nr" placeholder="Note /10" inputmode="decimal" style="width:110px"></div>
+  <input id="ni" type="file" accept="image/*">
+  <label class="ck"><input type="checkbox" id="nf"> Mettre à la une (bannière)</label>
+  <button class="btn s" id="add">＋ Publier ce titre</button></div>
+  <div class="cd"><h2>Titres publiés (${items.length})</h2>${items.length?items.map(x=>`<div class="li">${x.img?`<img src="${esc(x.img)}" alt="">`:'<span style="font-size:1.6rem">🎞️</span>'}<div class="g"><b>${esc(x.title)}</b><div class="mu">${LBL[x.type]||'Film'}${x.lang?' · '+esc(x.lang):''}${x.featured?' · à la une':''}</div></div><button class="dl" data-del="${esc(x.id)}">Suppr.</button></div>`).join(''):'<div class="mu">Aucun titre.</div>'}</div>
+  <div class="cd"><h2>Membres inscrits (${members.length})</h2>${ms.length?ms.map(m=>`<div class="li"><div class="g"><b>${esc(m.name||'—')}</b><div class="mu">${esc(m.email||'')}</div></div>${m.phone?`<a class="lk" target="_blank" rel="noopener" href="https://wa.me/${esc(normPhone(m.phone))}">💬 ${esc(m.phone)}</a>`:''}</div>`).join(''):'<div class="mu">Aucun membre pour le moment.</div>'}</div></div>`;
+}
+
+function render(force){
+  if(!force&&(page==='me'||page==='admin')&&['INPUT','SELECT','TEXTAREA'].includes(document.activeElement&&document.activeElement.tagName))return;
+  document.querySelectorAll('.ni[data-p]').forEach(n=>n.classList.toggle('on',n.dataset.p===page));
+  $('#nadm').style.display=isAdmin?'flex':'none';
+  $('#ct').href='https://wa.me/'+normPhone(phone)+'?text='+encodeURIComponent('Bonjour 👋, j\'ai une demande.');
+  $('#top').style.display=page==='main'?'block':'none';
+  const app=$('#app');
+  if(page==='me'){app.innerHTML=meView();const c=$('#ct2');if(c)c.href=$('#ct').href;return}
+  if(page==='admin'&&isAdmin){app.innerHTML=adminView();return}
+  $('#tabs').innerHTML=TABS.map(([k,n])=>`<button class="tab${k===tab&&!q?' on':''}" data-t="${k}">${n}</button>`).join('');
+  if(q){const l=items.filter(x=>(x.title||'').toLowerCase().includes(q.toLowerCase()));app.innerHTML=l.length?grid(l):empty;return}
+  if(tab!=='home'){const l=items.filter(x=>x.type===tab);app.innerHTML=l.length?grid(l):empty;return}
+  if(!items.length){app.innerHTML=banner()+empty;return}
+  app.innerHTML=banner()+SECS.map(([k,c,t,tg])=>{
+    const l=items.filter(x=>x.type===k);if(!l.length)return'';
+    return `<div class="sh"><span class="tg ${c}">${tg}</span><h2>${t}</h2></div><div class="g3">${l.slice(0,3).map(card).join('')}</div>${l.length>3?`<button class="more" data-t="${k}">Voir la liste complète</button>`:''}`;
+  }).join('');
+}
+
+/* ---- Achat WhatsApp ---- */
+function openBuy(id){
+  cur=items.find(x=>x.id===id);if(!cur)return;
+  const ep=cur.type!=='film';
+  $('#modal').innerHTML=`<div class="ov" id="ov"><div class="m"><div class="mh"><div class="pw">${cur.img?`<img src="${esc(cur.img)}" alt="">`:'🎞️'}</div><div class="mi"><b>${esc(cur.title)}</b><span class="mu">${LBL[cur.type]||'Film'}${cur.lang?' · '+esc(cur.lang):''}${cur.rating?' · ⭐ '+esc(cur.rating):''}</span>${cur.note?`<span class="mu">${esc(cur.note)}</span>`:''}</div></div>${ep?'<input id="ep" placeholder="Quel épisode ? (ex: 1, 1-12, Tous)">':''}<a class="btn" id="go" target="_blank" rel="noopener">💬 Acheter sur WhatsApp</a><button class="btn g" id="cl">Annuler</button></div></div>`;
+  const upd=()=>{
+    const e=ep?$('#ep').value.trim():'';
+    let t='Bonjour 👋, je veux acheter :\n🎬 *'+cur.title+'* ('+(LBL[cur.type]||'Film')+')';
+    if(ep)t+='\n📺 Épisode : '+(e||'—');
+    if(me)t+='\n👤 Client : '+(prof?.name||me.displayName||me.email)+(prof?.phone?' · '+prof.phone:'');
+    $('#go').href='https://wa.me/'+normPhone(phone)+'?text='+encodeURIComponent(t);
+  };
+  upd();
+  if(ep)$('#ep').oninput=upd;
+  $('#go').onclick=e=>{if(ep&&!$('#ep').value.trim()){e.preventDefault();toast("Indiquez l'épisode")}};
+  $('#cl').onclick=()=>$('#modal').innerHTML='';
+  $('#ov').onclick=e=>{if(e.target.id==='ov')$('#modal').innerHTML=''};
+}
+
+/* ---- Compte utilisateur ---- */
+const ERR={'auth/email-already-in-use':'Cet email est déjà utilisé','auth/invalid-email':'Email invalide','auth/weak-password':'Mot de passe trop court (6 min.)','auth/invalid-credential':'Email ou mot de passe incorrect','auth/user-not-found':'Email ou mot de passe incorrect','auth/wrong-password':'Email ou mot de passe incorrect','auth/too-many-requests':'Trop d\'essais, réessaie plus tard','auth/network-request-failed':'Pas de connexion internet'};
+const authErr=e=>ERR[e.code]||('Erreur : '+(e.code||e.message));
+function watchMembers(){
+  if(unsubM){unsubM();unsubM=null}
+  members=[];
+  if(isAdmin&&db)unsubM=onSnapshot(collection(db,'users'),s=>{members=s.docs.map(d=>({id:d.id,...d.data()}));render()},()=>{});
+}
+function setAdmin(v){
+  isAdmin=localAdmin=v;
+  try{v?localStorage.setItem('adm','1'):localStorage.removeItem('adm')}catch(e){}
+  watchMembers();
+  if(!v&&page==='admin')page='main';
+  render(true);
+}
+async function doSignup(){
+  if(!auth){toast('Firebase non configuré');return}
+  const name=$('#an').value.trim(),ph=normPhone($('#ap').value),em=$('#ae').value.trim(),pw=$('#aw').value;
+  if(!name||!em||pw.length<6){toast('Nom, email et mot de passe (6 min.) requis');return}
+  try{
+    const c=await createUserWithEmailAndPassword(auth,em,pw);
+    await updateProfile(c.user,{displayName:name});
+    await setDoc(doc(db,'users',c.user.uid),{name,email:em,phone:ph,createdAt:serverTimestamp()});
+    toast('Compte créé, bienvenue '+name+' !');
+  }catch(e){toast(authErr(e))}
+}
+async function doLogin(){
+  if(!auth){toast('Firebase non configuré');return}
+  try{await signInWithEmailAndPassword(auth,$('#ae').value.trim(),$('#aw').value);toast('Connecté')}
+  catch(e){toast(authErr(e))}
+}
+async function doForgot(){
+  if(!auth){toast('Firebase non configuré');return}
+  const em=$('#ae').value.trim();if(!em){toast('Entre ton email ci-dessus');return}
+  try{await sendPasswordResetEmail(auth,em);toast('Email de réinitialisation envoyé')}catch(e){toast(authErr(e))}
+}
+async function saveProfile(){
+  try{await setDoc(doc(db,'users',me.uid),{name:$('#pn').value.trim(),email:me.email,phone:normPhone($('#pp').value)},{merge:true});toast('Profil enregistré')}
+  catch(e){toast('Refusé : '+e.code)}
+}
+
+/* ---- Image réduite (limite 1 Mo par document Firestore) ---- */
+function toData(file){return new Promise((res,rej)=>{const im=new Image(),r=new FileReader();r.onload=()=>{im.onload=()=>{const s=Math.min(1,480/Math.max(im.width,im.height)),c=document.createElement('canvas');c.width=im.width*s;c.height=im.height*s;c.getContext('2d').drawImage(im,0,0,c.width,c.height);res(c.toDataURL('image/jpeg',.72))};im.onerror=rej;im.src=r.result};r.onerror=rej;r.readAsDataURL(file)})}
+
+/* ---- Événements ---- */
+document.addEventListener('click',async e=>{
+  const t=e.target,g=s=>t.closest(s);
+  let el;
+  if(el=g('[data-del]')){e.stopPropagation();if(confirm('Supprimer ce titre ?')){try{await deleteDoc(doc(db,'catalogue',el.dataset.del))}catch(x){toast('Refusé : '+x.code)}}}
+  else if(el=g('[data-buy]'))openBuy(el.dataset.buy);
+  else if(el=g('[data-t]')){tab=el.dataset.t;q='';$('#q').value='';render();scrollTo(0,0)}
+  else if(el=g('.ni[data-p]')){page=el.dataset.p;render(true);scrollTo(0,0)}
+  else if(el=g('[data-mode]')){mode=el.dataset.mode;render(true)}
+  else if(t.id==='lg'){await signOut(auth);toast('Déconnecté')}
+  else if(t.id==='ladm'){setAdmin(false);toast('Mode admin quitté')}
+  else if(t.id==='amok'){const v=($('#ame').value||'').trim().toLowerCase();if(v&&v===ADMIN_EMAIL.toLowerCase()){setAdmin(true);page='admin';render(true);scrollTo(0,0)}else toast('Email admin incorrect')}
+  else if(t.id==='dl')doLogin();
+  else if(t.id==='ds')doSignup();
+  else if(t.id==='fg')doForgot();
+  else if(t.id==='pf')saveProfile();
+  else if(t.id==='gadm'){page='admin';render(true);scrollTo(0,0)}
+  else if(t.id==='add'){
+    const title=$('#nt').value.trim();if(!title){toast('Entrez un titre');return}
+    const f=$('#ni').files[0];let img='';
+    if(f){try{img=await toData(f)}catch(x){toast('Image illisible');return}}
+    try{
+      await addDoc(collection(db,'catalogue'),{title,type:$('#nty').value,lang:$('#nl').value,note:$('#nn').value.trim(),rating:$('#nr').value.trim(),featured:$('#nf').checked,img,createdAt:serverTimestamp()});
+      ['nt','nn','nr','ni'].forEach(i=>$('#'+i).value='');$('#nf').checked=false;toast('Titre publié');
+    }catch(x){toast('Refusé : '+x.code)}
+  }
+});
+$('#q').oninput=e=>{q=e.target.value.trim();page='main';render()};
+
+/* ---- PWA ---- */
+addEventListener('beforeinstallprompt',e=>{e.preventDefault();dp=e;$('#inst').style.display='inline-block'});
+$('#inst').onclick=async()=>{if(dp){dp.prompt();await dp.userChoice;dp=null;$('#inst').style.display='none'}};
+if('serviceWorker' in navigator)addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{}));
+
+render();
+</script>
+</body>
+</html>
